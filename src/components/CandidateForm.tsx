@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Loader2, CheckCircle, Upload, FileText, X } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { FormStep1 } from "./FormStep1";
+import { FormStep2 } from "./FormStep2";
 
 interface FormData {
   fullName: string;
@@ -35,6 +34,7 @@ export const CandidateForm = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   const { toast } = useToast();
 
   const validateEmail = (email: string): boolean => {
@@ -109,9 +109,7 @@ export const CandidateForm = () => {
     return !Object.values(newErrors).some(error => error);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleSubmit = async () => {
     if (!validateForm()) {
       toast({
         title: "Validation Error",
@@ -143,8 +141,13 @@ export const CandidateForm = () => {
     }
   };
 
-  const wordCount = formData.coverLetter.trim().split(/\s+/).filter(word => word.length > 0).length;
-  const maxWords = 500;
+  const handleNext = () => {
+    setCurrentStep(2);
+  };
+
+  const handleBack = () => {
+    setCurrentStep(1);
+  };
 
   if (isSubmitted) {
     return (
@@ -285,149 +288,25 @@ export const CandidateForm = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Full Name */}
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name *</Label>
-                <Input
-                  id="fullName"
-                  placeholder="e.g., John Smith"
-                  value={formData.fullName}
-                  onChange={(e) => handleInputChange("fullName", e.target.value)}
-                  className={errors.fullName ? "border-destructive" : ""}
-                />
-                {errors.fullName && (
-                  <p className="text-sm text-destructive">{errors.fullName}</p>
-                )}
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="e.g., john.smith@email.com"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  className={errors.email ? "border-destructive" : ""}
-                />
-                {errors.email && (
-                  <p className="text-sm text-destructive">{errors.email}</p>
-                )}
-              </div>
-
-              {/* Phone Number */}
-              <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Phone Number *</Label>
-                <Input
-                  id="phoneNumber"
-                  placeholder="e.g., +1 (555) 123-4567"
-                  value={formData.phoneNumber}
-                  onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
-                  className={errors.phoneNumber ? "border-destructive" : ""}
-                />
-                {errors.phoneNumber && (
-                  <p className="text-sm text-destructive">{errors.phoneNumber}</p>
-                )}
-              </div>
-
-              {/* Supporting Documents Section */}
-              <div className="space-y-6 pt-6 border-t">
-                <h3 className="text-lg font-semibold">Supporting Documents</h3>
-                
-                {/* Resume Upload */}
-                <div className="space-y-2">
-                  <Label htmlFor="resume">Resume *</Label>
-                  <div className="space-y-3">
-                    {!formData.resume ? (
-                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors">
-                        <Upload className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
-                        <p className="text-sm text-muted-foreground mb-2">
-                          Upload your resume (PDF or DOCX, max 10MB)
-                        </p>
-                        <Input
-                          id="resume"
-                          type="file"
-                          accept=".pdf,.docx,.doc"
-                          onChange={handleFileUpload}
-                          className="hidden"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => document.getElementById("resume")?.click()}
-                        >
-                          Choose File
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                        <div className="flex items-center space-x-3">
-                          <FileText className="w-5 h-5 text-primary" />
-                          <div>
-                            <p className="text-sm font-medium">{formData.resume.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {(formData.resume.size / 1024 / 1024).toFixed(2)} MB
-                            </p>
-                          </div>
-                        </div>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={removeFile}
-                        >
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    )}
-                    {errors.resume && (
-                      <p className="text-sm text-destructive">{errors.resume}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Cover Letter */}
-                <div className="space-y-2">
-                  <Label htmlFor="coverLetter">
-                    Cover Letter{" "}
-                    <span className="text-sm text-muted-foreground font-normal">
-                      (optional but recommended)
-                    </span>
-                  </Label>
-                  <Textarea
-                    id="coverLetter"
-                    placeholder="Tell us why you're interested in this position and what makes you a great fit..."
-                    className="min-h-[120px] resize-none"
-                    value={formData.coverLetter}
-                    onChange={(e) => handleInputChange("coverLetter", e.target.value)}
-                  />
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>300-500 words recommended</span>
-                    <span className={wordCount > maxWords ? "text-destructive" : ""}>
-                      {wordCount}/{maxWords} words
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                className="w-full bg-gradient-primary hover:opacity-90 transition-opacity h-12 text-lg font-semibold"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Submitting Application...
-                  </>
-                ) : (
-                  "Apply Now"
-                )}
-              </Button>
-            </form>
+            {currentStep === 1 ? (
+              <FormStep1
+                formData={formData}
+                errors={errors}
+                onInputChange={handleInputChange}
+                onNext={handleNext}
+              />
+            ) : (
+              <FormStep2
+                formData={formData}
+                errors={errors}
+                isSubmitting={isSubmitting}
+                onInputChange={handleInputChange}
+                onFileUpload={handleFileUpload}
+                onRemoveFile={removeFile}
+                onSubmit={handleSubmit}
+                onBack={handleBack}
+              />
+            )}
           </CardContent>
         </Card>
       </div>
