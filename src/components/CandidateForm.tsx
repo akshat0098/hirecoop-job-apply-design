@@ -187,9 +187,95 @@ export const CandidateForm = () => {
             Join Our Team
           </h1>
           <p className="text-xl text-muted-foreground">
-            We're looking for talented individuals to help shape the future
+            We&apos;re looking for talented individuals to help shape the future
           </p>
         </div>
+
+        {/* Job Details */}
+        <Card className="shadow-soft mb-8">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-3xl mb-2">Senior Frontend Developer</CardTitle>
+                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                  <span>Full-time</span>
+                  <span>•</span>
+                  <span>Remote / San Francisco, CA</span>
+                  <span>•</span>
+                  <span>$120,000 - $160,000</span>
+                </div>
+              </div>
+              <div className="hidden sm:block">
+                <div className="bg-gradient-primary text-white px-4 py-2 rounded-lg text-sm font-medium">
+                  Now Hiring
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-3">About the Role</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                We&apos;re seeking a talented Senior Frontend Developer to join our innovative team at Artizence. 
+                You&apos;ll be responsible for building cutting-edge user interfaces and creating exceptional 
+                digital experiences that push the boundaries of what&apos;s possible on the web.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-3">Key Responsibilities</h3>
+              <ul className="text-muted-foreground space-y-2">
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Develop responsive, high-performance web applications using React, TypeScript, and modern frontend technologies
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Collaborate with designers and backend developers to implement pixel-perfect user interfaces
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Optimize applications for maximum speed and scalability across various devices and browsers
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Mentor junior developers and contribute to code reviews and best practices
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-3">What We&apos;re Looking For</h3>
+              <ul className="text-muted-foreground space-y-2">
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-secondary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  5+ years of experience in frontend development with React and TypeScript
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-secondary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Strong understanding of modern CSS, responsive design, and web accessibility standards
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-secondary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Experience with state management libraries (Redux, Zustand) and testing frameworks
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-gradient-secondary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Excellent communication skills and ability to work in a collaborative environment
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-r from-accent/10 to-primary/10 p-4 rounded-lg">
+              <h3 className="text-lg font-semibold mb-2">Why Join Artizence?</h3>
+              <p className="text-sm text-muted-foreground">
+                Join a team that values innovation, creativity, and work-life balance. We offer competitive 
+                compensation, comprehensive benefits, flexible work arrangements, and the opportunity to work 
+                on exciting projects that make a real impact.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         <Card className="shadow-brand">
           <CardHeader>
